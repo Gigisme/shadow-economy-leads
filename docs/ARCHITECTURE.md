@@ -52,7 +52,7 @@ flowchart LR
         WEB[Business websites<br/>footer / contacts]
     end
 
-    subgraph Raw["raw/ (immutable, one folder per run)"]
+    subgraph Raw["data/raw/&lt;source&gt;/&lt;run&gt;/ (one folder per run)"]
         RG[(google/)]
         RR[(registrucentras/)]
         RV[(vmi/)]
@@ -87,8 +87,8 @@ flowchart LR
 ```
 
 Two run modes:
-- **replay** (default, `docker compose up`): rebuilds everything from the committed raw snapshot, so it needs no API keys.
-- **live**: scrapes fresh data and writes a new `raw/<run>` folder.
+- **replay** (default, `docker compose up`): rebuilds everything from a committed, filtered sample of the raw data (Vilnius, our categories only), so it needs no API keys.
+- **live**: scrapes fresh data and writes a new `data/raw/<source>/<run>` folder.
 
 ### Google providers: two tools, two jobs
 
@@ -100,7 +100,7 @@ flowchart LR
     subgraph PA["Places API: identity + verification (not stored)"]
         PAD[Place Details by place_id<br/>businessStatus · website ·<br/>userRatingCount]
     end
-    OXS --> RAWO[(raw/google/&lt;run&gt;/oxylabs/*.json)]
+    OXS --> RAWO[(data/raw/google/&lt;run&gt;/*.json)]
     RAWO --> N[google_listing_snapshot<br/>place_id · name · address · lat/lon ·<br/>review_count · rating · hours · website · types]
     N -- place_id --> PAD
     PAD --> V[verification, used at run time<br/>closed? → drop · website → matching ·<br/>review count agrees? → quality metric]

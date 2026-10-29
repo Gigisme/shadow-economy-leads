@@ -1,0 +1,19 @@
+[project]
+name = "shadow-leads"
+version = "0.1.0"
+description = "Shadow-economy lead list for Vilnius businesses: busy on Google, quiet on paper."
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32",
+    "duckdb>=1.1",
+]
+
+[project.scripts]
+shadow-leads = "shadow_leads.cli:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
